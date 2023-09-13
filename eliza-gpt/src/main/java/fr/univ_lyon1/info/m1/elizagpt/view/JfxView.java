@@ -68,13 +68,16 @@ public class JfxView {
     static final String ELIZA_STYLE = "-fx-background-color: #A0A0E0; " + BASE_STYLE;
 
     private void replyToUser(final String text) {
+        //TODO: factoriser cette fonction avec sendMessage
         HBox hBox = new HBox();
         final Label label = new Label(text);
         hBox.getChildren().add(label);
         label.setStyle(USER_STYLE);
         hBox.setAlignment(Pos.BASELINE_LEFT);
         dialog.getChildren().add(hBox);
-        // TODO: a click on this hbox should delete the message.
+        hBox.setOnMouseClicked(e -> {
+            dialog.getChildren().remove(hBox);
+        });
     }
     
     private void sendMessage(final String text) {
@@ -128,6 +131,17 @@ public class JfxView {
             replyToUser(startQuestion + processor.firstToSecondPerson(matcher.group(1)) + " ?");
             return;
         }
+        pattern = Pattern.compile(".*\\?", Pattern.CASE_INSENSITIVE);
+        matcher = pattern.matcher(normalizedText);
+        if (matcher.matches()) {
+            final String startQuestion = processor.pickRandom(new String[] {
+                    "Je vous renvoie la question.",
+                    "Ici, c'est moi qui pose les questions."
+            });
+            replyToUser(startQuestion);
+            return;
+        }
+
         // Nothing clever to say, answer randomly
         if (random.nextBoolean()) {
             replyToUser("Il faut beau aujourd'hui, vous ne trouvez pas ?");
@@ -204,10 +218,12 @@ public class JfxView {
             searchTextLabel.setText("Searching for: " + currentSearchText);
         }
         List<HBox> toDelete = new ArrayList<>();
+        Pattern pattern = Pattern.compile(text.getText(), Pattern.CASE_INSENSITIVE);
         for (Node hBox : dialog.getChildren()) {
             for (Node label : ((HBox) hBox).getChildren()) {
                 String t = ((Label) label).getText();
-                if (!t.contains(text.getText())) {
+                Matcher matcher = pattern.matcher(t);
+                if (!matcher.matches()) {
                     // Can delete it right now, we're iterating over the list.
                     toDelete.add((HBox) hBox);
                 }
