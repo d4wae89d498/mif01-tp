@@ -72,7 +72,7 @@ public class JfxView {
         HBox hBox = new HBox();
         final Label label = new Label(text);
         hBox.getChildren().add(label);
-        label.setStyle(USER_STYLE);
+        label.setStyle(ELIZA_STYLE);
         hBox.setAlignment(Pos.BASELINE_LEFT);
         dialog.getChildren().add(hBox);
         hBox.setOnMouseClicked(e -> {
@@ -84,7 +84,7 @@ public class JfxView {
         HBox hBox = new HBox();
         final Label label = new Label(text);
         hBox.getChildren().add(label);
-        label.setStyle(ELIZA_STYLE);
+        label.setStyle(USER_STYLE);
         hBox.setAlignment(Pos.BASELINE_RIGHT);
         dialog.getChildren().add(hBox);
         hBox.setOnMouseClicked(e -> {
