@@ -3,6 +3,8 @@ package fr.univ_lyon1.info.m1.elizagpt.model;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Logic to process a message (and probably reply to it).
@@ -10,7 +12,7 @@ import java.util.Random;
 public class MessageProcessor {
     private final Random random = new Random();
     /**
-     * Normlize the text: remove extra spaces, add a final dot if missing.
+     * Normalize the text: remove extra spaces, add a final dot if missing.
      * @param text
      * @return normalized text.
      */
@@ -20,6 +22,8 @@ public class MessageProcessor {
                 .replaceAll("\\s+$", "")
                 .replaceAll("[^\\.!?:]$", "$0.");
     }
+    
+
 
     /**
      * Information about conjugation of a verb.
