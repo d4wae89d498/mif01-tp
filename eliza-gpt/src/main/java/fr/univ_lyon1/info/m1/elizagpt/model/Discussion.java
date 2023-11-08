@@ -46,11 +46,11 @@ public class Discussion {
      * @return the name if it is found, null if not.
      */
     public String getUserName() {
+        Pattern pattern = Pattern.compile("Je m'appelle (.*)\\.",
+                Pattern.CASE_INSENSITIVE);
         for (Message m: messages){
-            Pattern pattern = Pattern.compile("Je m'appelle (.*)\\.",
-                    Pattern.CASE_INSENSITIVE);
             Matcher matcher = pattern.matcher(m.content);
-            if (matcher.matches()) {
+            if (m.isFromUser && matcher.matches()) {
                 return matcher.group(1);
             }
         }
