@@ -18,8 +18,10 @@ public class Discussion {
         messages.add(message);
     }
 
-    public void removeMessage() {
-
+    public void removeMessage(int id) {
+        this.messages.removeIf(message ->
+            message.id == id
+        );
     }
 
     public List<Message> searchAllMatchingMessages(Pattern pattern) {

@@ -50,7 +50,11 @@ public class ActionController {
         }
     }
 
-    public void deleteMessage(String text) {
+    public void deleteMessage(int id) {
         //TODO
+        discussion.removeMessage(id);
+        for (JfxView view: viewsToNotify) {
+            view.removeHBoxesWithID(id);
+        }
     }
 }

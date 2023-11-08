@@ -72,23 +72,37 @@ public class JfxView {
     static final String USER_STYLE = "-fx-background-color: #A0E0A0; " + BASE_STYLE;
     static final String ELIZA_STYLE = "-fx-background-color: #A0A0E0; " + BASE_STYLE;
 
+    public void removeHBoxesWithID(int id) {
+        dialog.getChildren().removeAll(dialog.lookupAll("#" + id));
+    }
+
+
     private void printMessage(final Message message) {
         HBox hBox = new HBox();
+        hBox.setId(message.id + "");
         final Label label = new Label(message.content);
-        hBox.getChildren().add(label);
+        Button deleteButton = new Button("X");
+      //  deleteButton.setStyle("-fx-background-color: #DDDDDD;"); // Style du bouton de suppression
+        HBox messageContainer = new HBox(label, deleteButton);
+        hBox.getChildren().addAll(messageContainer);
         if (message.isFromUser) {
-            label.setStyle(USER_STYLE);
+            messageContainer.setStyle(USER_STYLE);
             hBox.setAlignment(Pos.BASELINE_RIGHT);
-        }
-        else {
-            label.setStyle(ELIZA_STYLE);
+        } else {
+            messageContainer.setStyle(ELIZA_STYLE);
             hBox.setAlignment(Pos.BASELINE_LEFT);
         }
         dialog.getChildren().add(hBox);
-        hBox.setOnMouseClicked(e -> {
-            actionController.deleteMessage(((Label)hBox.getChildren().get(0)).getText());
+        // Ajouter un gestionnaire d'événements pour le bouton de suppression
+        deleteButton.setOnAction(event -> {
+            actionController.deleteMessage(message.id);
+           // hBox.
+          //  message.delete();
+            // Vous pouvez implémenter ici la logique pour supprimer le message
+            // Par exemple, actionController.deleteMessage(message.content);
         });
     }
+
 
     private void printManyMessages(List<Message> messages){
         dialog.getChildren().clear();
