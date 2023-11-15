@@ -6,6 +6,8 @@ import java.util.List;
 import fr.univ_lyon1.info.m1.elizagpt.controller.ActionController;
 import fr.univ_lyon1.info.m1.elizagpt.model.Message;
 import fr.univ_lyon1.info.m1.elizagpt.model.MessageProcessor;
+import fr.univ_lyon1.info.m1.elizagpt.model.SearchStrategies.Regex;
+import fr.univ_lyon1.info.m1.elizagpt.model.SearchStrategies.SearchStrategy;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -30,6 +32,10 @@ public class JfxView {
     private TextField text = null;
     private TextField searchText = null;
     private Label searchTextLabel = null;
+
+    private Button regexStreagyBtn = null;
+
+    private Button substringStrategyBtn = null;
 
     private final ActionController actionController;
 
@@ -122,6 +128,20 @@ public class JfxView {
             printManyMessages(messages);
         });
         firstLine.getChildren().add(searchText);
+
+
+        regexStreagyBtn = new Button("RegexStrategy");
+        firstLine.getChildren().add(regexStreagyBtn);
+        regexStreagyBtn.setOnAction(e -> {
+            actionController.setSearchStrategyToRegex();
+        });
+        
+        substringStrategyBtn = new Button("Substring");
+        firstLine.getChildren().add(substringStrategyBtn);
+        substringStrategyBtn.setOnAction(e -> {
+            actionController.setSearchStrategyToSubstring();
+        });
+
         final Button send = new Button("Search");
         send.setOnAction(e -> {
             List<Message> messages = controller.searchFor(searchText.getText());
